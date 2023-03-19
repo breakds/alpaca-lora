@@ -44,6 +44,7 @@
 
         packages = [
           python-env
+          pkgs.nodePackages.pyright
         ];
 
         shellHooks = let pythonIcon = "f3e2"; in ''
