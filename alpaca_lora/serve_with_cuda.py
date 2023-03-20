@@ -62,20 +62,21 @@ def main():
     # NOTE: There will be a warning about mismatched tokenizer names, which
     # seems to be caused by LlamaTokenizer used to be called LLaMATokenizer. I
     # think it cane be safely ignored.
-    tokenizer= LlamaTokenizer.from_pretrained(BASE_MODEL)
+    tokenizer = LlamaTokenizer.from_pretrained(BASE_MODEL)
     model = LlamaForCausalLM.from_pretrained(
         BASE_MODEL,
-        # TODO(breakds): Add bitsandbytes and turn 8bit on.
         load_in_8bit=True,
         torch_dtype=torch.float16,
-        device_map={'':0},
+        device_map="auto",
     )
-    model = PeftModel.from_pretrained(model, LORA_WEIGHTS, torch_dtype=torch.float16)
+    model = PeftModel.from_pretrained(model, LORA_WEIGHTS, torch_dtype=torch.float16,
+                                      # The device_map here fixes the issue that is getting "NoneType".
+                                      device_map={'': 0})
     model.eval()
 
     print(evaluate(
         tokenizer, model,
-        instruction="Tell me about llama"))
+        instruction="Tell me about framework laptop"))
 
 
 if __name__ == "__main__":
