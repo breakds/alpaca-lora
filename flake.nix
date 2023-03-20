@@ -36,6 +36,11 @@
           huggingface-accelerate
           huggingface-peft
           bitsandbytes
+
+          # UI
+          questionary
+
+          # Utils
           black
         ]);
 

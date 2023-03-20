@@ -1,7 +1,8 @@
 import torch
 from peft import PeftModel
-import transformers
 from transformers import LlamaTokenizer, LlamaForCausalLM, GenerationConfig
+
+import questionary
 
 
 def generate_prompt(instruction, input=None):
@@ -78,7 +79,10 @@ def main():
     )
     model.eval()
 
-    print(evaluate(tokenizer, model, instruction="Tell me about framework laptop"))
+    while True:
+        instruction = questionary.text("Instruction: ").ask()
+        feedback = evaluate(tokenizer, model, instruction=instruction)
+        print(f"ANSWER: {feedback}")
 
 
 if __name__ == "__main__":
