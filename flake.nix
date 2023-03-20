@@ -36,16 +36,18 @@
           huggingface-accelerate
           huggingface-peft
           bitsandbytes
+          black
         ]);
 
         name = "alpaca-lora";
-        
+
       in pkgs.mkShell {
         inherit name;
 
         packages = [
           python-env
           pkgs.nodePackages.pyright
+          pkgs.pre-commit
         ];
 
         shellHooks = let pythonIcon = "f3e2"; in ''

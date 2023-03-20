@@ -21,7 +21,7 @@ def generate_prompt(instruction, input=None):
 
 
 BASE_MODEL = "decapoda-research/llama-7b-hf"
-LORA_WEIGHTS = "tloen/alpaca-lora-7b"    
+LORA_WEIGHTS = "tloen/alpaca-lora-7b"
 
 
 def evaluate(
@@ -55,7 +55,7 @@ def evaluate(
         )
     s = generation_output.sequences[0]
     output = tokenizer.decode(s)
-    return output.split("### Response:")[1].strip()    
+    return output.split("### Response:")[1].strip()
 
 
 def main():
@@ -69,14 +69,16 @@ def main():
         torch_dtype=torch.float16,
         device_map="auto",
     )
-    model = PeftModel.from_pretrained(model, LORA_WEIGHTS, torch_dtype=torch.float16,
-                                      # The device_map here fixes the issue that is getting "NoneType".
-                                      device_map={'': 0})
+    model = PeftModel.from_pretrained(
+        model,
+        LORA_WEIGHTS,
+        torch_dtype=torch.float16,
+        # The device_map here fixes the issue that is getting "NoneType".
+        device_map={"": 0},
+    )
     model.eval()
 
-    print(evaluate(
-        tokenizer, model,
-        instruction="Tell me about framework laptop"))
+    print(evaluate(tokenizer, model, instruction="Tell me about framework laptop"))
 
 
 if __name__ == "__main__":
