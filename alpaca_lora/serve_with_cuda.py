@@ -66,16 +66,16 @@ def main():
     model = LlamaForCausalLM.from_pretrained(
         BASE_MODEL,
         # TODO(breakds): Add bitsandbytes and turn 8bit on.
-        load_in_8bit=False,
+        load_in_8bit=True,
         torch_dtype=torch.float16,
-        device_map="auto",
+        device_map={'':0},
     )
     model = PeftModel.from_pretrained(model, LORA_WEIGHTS, torch_dtype=torch.float16)
     model.eval()
 
     print(evaluate(
         tokenizer, model,
-        instruction="Tell me about framework laptop"))
+        instruction="Tell me about llama"))
 
 
 if __name__ == "__main__":
