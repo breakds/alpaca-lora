@@ -35,6 +35,7 @@
           huggingface-transformers
           huggingface-accelerate
           huggingface-peft
+          bitsandbytes
         ]);
 
         name = "alpaca-lora";
