@@ -77,6 +77,9 @@ def main():
         # The device_map here fixes the issue that is getting "NoneType".
         device_map={"": 0},
     )
+    model.config.pad_token_id = tokenizer.pad_token_id = 0  # unk
+    model.config.bos_token_id = 1
+    model.config.eos_token_id = 2
     model.eval()
 
     while True:
