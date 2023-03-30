@@ -42,6 +42,7 @@
 
           # Utils
           black
+          pudb
         ]);
 
         name = "alpaca-lora";
