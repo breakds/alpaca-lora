@@ -54,9 +54,17 @@ def evaluate(
             output_scores=True,
             max_new_tokens=2048,
         )
-    s = generation_output.sequences[0]
-    output = tokenizer.decode(s)
-    return output.split("### Response:")[1].strip()
+    # The [:, input_ids.shape[0]:] asks the tokenizer to decode only
+    # the newly generated part of each sequence.
+    #
+    # If we only want to decode the first sequence, we can run
+    #
+    #     tokenzier.decode(generation_output.sequences[0, ihput_ids.shape[0]:])
+    output = tokenizer.batch_decode(
+        generation_output.sequences[:, input_ids.shape[0] :]
+    )
+    # Return only the first sequence.
+    return output[0].split("### Response:")[1].strip()
 
 
 def main():
